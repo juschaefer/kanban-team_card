@@ -1,0 +1,137 @@
+<style>
+  .info > .alert-info {
+    display: none;
+  }
+  .info > input[type=checkbox] {
+    position: absolute;
+    display: none;
+  }
+  .info >label {
+    cursor: pointer;
+  }
+  .info >input[type=checkbox]:checked ~ .alert-info {
+    display: block;
+  }
+  .alert {
+    margin-bottom: 0px !important;
+  }
+</style>
+
+<div class="page-header">
+  <h2>Settings <small class="text-primary">Kanban Card</small></h2>
+</div>
+
+<br>
+
+<h4 class="text-primary">Members of Owner List</h4>
+<div class="callout callout-primary">
+  <several>
+    <div class="form-group">
+      <label>Member <nr></nr>
+        <span class="info">
+          <input type="checkbox" id="i">
+          <label for="i"><span class="glyphicon glyphicon-info-sign" style="color: #428bca"></span></label>
+          <span class="alert alert-info">
+            A KanbanCard can be assigned to an owner who is responsible for the task represented by the KanbanCard. Here you can specify which names are available if you want to assign the task to someone. Use the plus and minus buttons to add and remove names.
+          </span>
+        </span>
+      </label>
+      <input type="text" name="members" class="form-control" placeholder="Type here...">
+    </div>
+  </several>
+</div>
+
+<br>
+
+<h4 class="text-primary">Priority Entries</h4>
+<div class="callout callout-primary">
+  <several>
+    <div class="form-group">
+      <label>Priority <nr></nr>
+        <span class="info">
+          <input type="checkbox" id="ii">
+          <label for="ii"><span class="glyphicon glyphicon-info-sign" style="color: #428bca"></span></label>
+          <span class="alert alert-info">
+            A KanbanCard can be assigned a priority. Here you can specify which priorities are available for selection. Use the plus and minus buttons to add and remove priorities.
+          </span>
+        </span>
+      </label>
+      <input type="text" name="priorities" class="form-control" placeholder="Type here...">
+    </div>
+  </several>
+</div>
+<br>
+
+<div class="form-group">
+  <label>Editable Card
+    <span class="info">
+      <input type="checkbox" id="iii">
+      <label for="iii"><span class="glyphicon glyphicon-info-sign" style="color: #428bca"></span></label>
+      <span class="alert alert-info">
+        Here you specify whether the KanbanCard can be edited. In this case, neither title, owner, description, priority, nor deadline can be edited.
+      </span>
+    </span>
+  </label>
+  <input type="checkbox" name="editable" class="form-control">
+</div>
+
+<br>
+
+<div class="form-group">
+  <label>URL of SVG file for Owner Icon
+    <span class="info">
+      <input type="checkbox" id="iv">
+      <label for="iv"><span class="glyphicon glyphicon-info-sign" style="color: #428bca"></span></label>
+      <span class="alert alert-info">
+        Here, the path to the SVG file for the owner icon can be set.
+      </span>
+    </span>
+  </label>
+  <input type="url" name="icon.owner" size="70" class="form-control">
+</div>
+
+<br>
+
+<div class="form-group">
+  <label>URL of SVG file for Deadline Icon
+    <span class="info">
+      <input type="checkbox" id="v">
+      <label for="v"><span class="glyphicon glyphicon-info-sign" style="color: #428bca"></span></label>
+      <span class="alert alert-info">
+        Here, the path to the SVG file for the deadline icon can be set.
+      </span>
+    </span>
+  </label>
+  <input type="url" name="icon.deadline" size="70" class="form-control">
+</div>
+
+<br>
+
+<div class="form-group">
+  <label>URL of CSS File for Layout
+    <span class="info">
+      <input type="checkbox" id="vi">
+      <label for="vi"><span class="glyphicon glyphicon-info-sign" style="color: #428bca"></span></label>
+      <span class="alert alert-info">
+        Enter the path to a CSS file for the layout here.
+      </span>
+    </span>
+  </label>
+  <input type="hidden" name="css.0" value="ccm.load">
+  <input type="url" name="css.1" size="70" class="form-control">
+</div>
+
+<br>
+
+<div class="form-group">
+  <label>HTML Structure
+    <span class="info">
+      <input type="checkbox" id="vii">
+      <label for="vii"><span class="glyphicon glyphicon-info-sign" style="color: #428bca"></span></label>
+      <span class="alert alert-info">
+        Here you can change the HTML structure of the KanbanCard.
+      </span>
+    </span>
+  </label>
+  <input type="json_builder" name="html" class="form-control">
+</div>

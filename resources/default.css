@@ -1,0 +1,126 @@
+/**
+ * @overview default layout of ccm component for kanban card
+ * @author André Kless <andre.kless@web.de> 2017
+ * @license The MIT License (MIT)
+ */
+
+#main {
+  width: 18em;
+  margin: 0.5em;
+  font-family: Arial, sans-serif;
+}
+
+#header,
+#footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  min-height: 1.85em;
+  padding: 0.25em;
+  background-color: white;
+  border: 0.1em solid lightgray;
+}
+
+#header {
+  border-bottom: 0;
+  border-top-left-radius: 0.5em;
+  border-top-right-radius: 0.5em;
+  padding-bottom: 0.15em;
+}
+
+#footer {
+  border-top: 0;
+  border-bottom-left-radius: 0.5em;
+  border-bottom-right-radius: 0.5em;
+  padding-top: 0.15em;
+}
+
+#body {
+  border: 0.1em solid lightgray;
+  background-color: white;
+}
+
+.entry {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0.2em;
+}
+
+.entry:not(#summary) div:last-child {
+  margin-right: 0.3em;
+}
+
+#title {
+  font-weight: bold;
+}
+
+#owner,
+#priority,
+#deadline {
+  overflow-x: hidden;
+  white-space: nowrap;
+}
+
+.value {
+  cursor: text;
+}
+
+#summary .value {
+  flex-grow: 1;
+  padding: 0.3em;
+  font-size: 80%;
+}
+
+#priority .value {
+  max-width: 6em;
+  overflow: hidden;
+  border-radius: 1em;
+  padding: 0 0.4em;
+  color: white;
+  background-color: black;
+}
+
+*[contenteditable='true'] {
+  word-break: break-all;
+}
+
+.value:empty,
+.value:empty + div {
+  opacity: 0.5;
+}
+
+#title .value:empty:before {
+  content: 'Title';
+}
+
+#owner .value:empty:before {
+  content: 'Owner';
+}
+
+#summary .value:empty:before {
+  content: 'Summary';
+}
+
+#priority .value:empty:before {
+  content: '...';
+}
+
+#deadline .value:empty:before {
+  content: 'Deadline';
+}
+
+input {
+  width: 11em;
+}
+
+select {
+  max-width: 11em;
+  cursor: pointer;
+}
+
+img {
+  height: 1em;
+}
