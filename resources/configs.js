@@ -76,6 +76,17 @@ ccm.files[ 'configs.js' ] = {
       "store": [ "ccm.store", { "name": "kanban_card", "url": "wss://ccm2.inf.h-brs.de" } ],
       "key": "demo_blue"
     }
+  },
+
+  "vm_white": {
+    "key": "vm_white",
+    "css.1": "../kanban_team_card/resources/default.css",
+    "data": {
+      "store": [ "ccm.store", { "name": "kanban_team_cards", "url": "http://192.168.99.101:8080" } ],
+      // "key": "sose_19"
+      "key": "1547935098383X5193252592493718"
+    },
+    "onchange": function ( event ) { console.log( this.index, 'onchange', this.getValue(), event ) }
   }
 
 };
