@@ -23,40 +23,13 @@
         name: 'kanban_team_card',
 
         //ccm: 'https://ccmjs.github.io/ccm/ccm.js',
-        ccm: 'https://ccmjs.github.io/ccm/versions/ccm-18.2.0.js',
-
-        "jquery": [
-            "ccm.load", {
-                "url": "https://code.jquery.com/jquery-3.3.1.slim.min.js",
-                "integrity": "sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo",
-                "crossorigin": "anonymous"
-            }
-        ],
-
-        "propper": [
-            "ccm.load", {
-                "url": "https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js",
-                "integrity": "sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49",
-                "crossorigin": "anonymous"
-            }
-        ],
-
-
-        "bootstrap": [
-            "ccm.load", {
-                "url": "https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js",
-                "integrity": "sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em",
-                "crossorigin": "anonymous"
-            }, {
-                "url": "https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css",
-                "integrity": "sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B",
-                "crossorigin": "anonymous"
-            }
-        ],
+        ccm: 'https://ccmjs.github.io/ccm/versions/ccm-19.0.0.js',
 
         config: {
 
-            "html": {
+            details: ['ccm.component', '../kanban_team_card-details/ccm.kanban_team_card-details.js'],
+
+            html: {
                 "id": "main",
                 "inner": [
                     {
@@ -75,6 +48,18 @@
                                     }
                                 ]
                             },
+                            // {
+                            //     "id": "erase",
+                            //     "tag": "button",
+                            //     "type": "button",
+                            //     "class": "btn",
+                            //     "inner": "L&ouml;schen",
+                            //     // "inner": {
+                            //     //     "tag": "img",
+                            //     //     "src": "%icon_erase%"
+                            //     // },
+                            //     "onclick": "%erase%"
+                            // },
                             {
                                 "id": "owner",
                                 "class": "entry",
@@ -123,6 +108,19 @@
                                 }
                             },
                             {
+                                "id": "details",
+                                "inner": [
+                                    {
+                                        "id": "btn-navigate-details",
+                                        "tag": "button",
+                                        "type": "button",
+                                        "class": "btn btn-secondary btn-sm",
+                                        "inner": "Details",
+                                        "onclick": "%navigate_details%"
+                                    },
+                                ]
+                            },
+                            {
                                 "id": "deadline",
                                 "class": "entry",
                                 "inner": [
@@ -144,17 +142,28 @@
                     }
                 ]
             },
-            "css": ["ccm.load", "https://ccmjs.github.io/akless-components/kanban_card/resources/default.css"],
-            "data": {},
-            "editable": true,
-            "members": ["John", "Jane"],
-            "priorities": ["A", "B", "C"],
-            "icon": {
+
+            bootstrap: [
+                "ccm.load", {
+                    "url": "https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css",
+                    "integrity": "sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B",
+                    "crossorigin": "anonymous"
+                }
+            ],
+
+            css: ["ccm.load", "https://ccmjs.github.io/akless-components/kanban_card/resources/default.css"],
+            data: {},
+            editable: true,
+            members: [],
+            priorities: [],
+            icon: {
                 "owner": "https://ccmjs.github.io/akless-components/kanban_card/resources/owner.svg",
                 "deadline": "https://ccmjs.github.io/akless-components/kanban_card/resources/deadline.svg"
             }
 
-            //  "onchange": function ( event ) { console.log( this.index, 'onchange', this.getValue(), event ) },
+            // "onchange": function (event) {
+            //     console.log(this.index, 'onchange', this.getValue(), event)
+            // },
             //  "user": [ "ccm.instance", "https://ccmjs.github.io/akless-components/user/versions/ccm.user-8.2.0.js", [ "ccm.get", "https://ccmjs.github.io/akless-components/user/resources/configs.js", "guest" ] ],
             //  "logger": [ "ccm.instance", "https://ccmjs.github.io/akless-components/log/versions/ccm.log-4.0.1.js", [ "ccm.get", "https://ccmjs.github.io/akless-components/log/resources/configs.js", "greedy" ] ]
 
@@ -162,7 +171,17 @@
 
         Instance: function () {
 
-            let $, data;
+            /**
+             * shortcut to help functions
+             * @type {Object.<string,function>}
+             */
+            let $;
+
+            /**
+             * own reference for inner functions
+             * @type {Instance}
+             */
+            const self = this;
 
             this.init = async () => {
 
@@ -182,15 +201,15 @@
             };
 
             this.start = async () => {
+
                 // get kanban card data
-                data = await $.dataset(this.data);
-                // console.log("Data: ", data);
+                data = await $.dataset(self.data);
 
                 // logging of 'start' event
-                this.logger && this.logger.log('start', $.clone(data));
+                // this.logger && this.logger.log('start', $.clone(data));
 
                 // render main HTML structure
-                $.setContent(this.element, $.html(this.html, $.integrate({
+                $.setContent(self.element, $.html(self.html, $.integrate({
 
                     title: '',
                     owner: '',
@@ -223,11 +242,17 @@
                     },
                     onfocus_deadline: function () {
                         input(this);
+                    },
+                    erase: function() {
+                        console.log("ERASE!");
+                    },
+                    navigate_details: function () {
+                        window.open('../kanban_team_card/details.html?id=' + data.key);
                     }
 
                 }, data, true)));
 
-                const self = this;
+                // const self = this;
 
                 /**
                  * updates value of a changed kanban card property
@@ -239,9 +264,10 @@
 
                     // has user instance? => login
                     self.user && await self.user.login();
-
+                    console.log(data);
                     // update kanban card data
                     data[prop] = value.trim();
+
                     $.isObject(self.data) && $.isDatastore(self.data.store) && await self.data.store.set(data);
 
                     // logging of 'change' event
@@ -273,11 +299,11 @@
                     }));
 
                     // replace element for owner/priority with selector box
-                    $.replace($.html({
+                    $.replace(elem, $.html({
                         tag: 'select', inner: entries, onchange: onChange, onblur: function () {
                             restore.call(this, elem);
                         }
-                    }), elem);
+                    }));
 
                     // focus selector box
                     self.element.querySelector('select').focus();
@@ -302,7 +328,7 @@
                 function input(elem) {
 
                     // replace element for deadline with input field
-                    $.replace($.html({
+                    $.replace(elem, $.html({
                         tag: 'input',
                         type: 'date',
                         value: data.deadline || '',
@@ -310,7 +336,7 @@
                         onblur: function () {
                             restore.call(this, elem);
                         }
-                    }), elem);
+                    }));
 
                     // focus input field
                     self.element.querySelector('input').focus();
@@ -335,7 +361,7 @@
                  */
                 function restore(elem) {
 
-                    $.replace(elem, this);
+                    $.replace(this, elem);
 
                 }
 
