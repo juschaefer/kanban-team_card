@@ -80,20 +80,20 @@
                             }
                         ]
                     },
-                    {
-                        "id": "body",
-                        "inner": {
-                            "id": "summary",
-                            "class": "entry",
-                            "inner": {
-                                "class": "value",
-                                "inner": "%summary%",
-                                "contenteditable": "%editable%",
-                                "oninput": "%oninput_summary%",
-                                "onblur": "%onblur_summary%"
-                            }
-                        }
-                    },
+                    // {
+                    //     "id": "body",
+                    //     "inner": {
+                    //         "id": "summary",
+                    //         "class": "entry",
+                    //         "inner": {
+                    //             "class": "value",
+                    //             "inner": "%summary%",
+                    //             "contenteditable": "%editable%",
+                    //             "oninput": "%oninput_summary%",
+                    //             "onblur": "%onblur_summary%"
+                    //         }
+                    //     }
+                    // },
                     {
                         "id": "footer",
                         "inner": [
@@ -156,6 +156,17 @@
             editable: true,
             members: [],
             priorities: [],
+            board_store: {
+                "store": [
+                    "ccm.store",
+                    {
+                        "name": "kanban_team_borad",
+                        // "url": "https://ccm2.inf.h-brs.de"
+                        "url": "http://192.168.99.101:8080"
+                    }
+                ],
+                "key": "sose_19"
+            },
             icon: {
                 "owner": "https://ccmjs.github.io/akless-components/kanban_card/resources/owner.svg",
                 "deadline": "https://ccmjs.github.io/akless-components/kanban_card/resources/deadline.svg"
@@ -201,6 +212,10 @@
             };
 
             this.start = async () => {
+
+                // let lane = await getBoardLane("1549002752508X7882114181170354");
+                // let lane = await getBoardLane("1549002107660X9548834295194919");
+                // console.log("lane: " + lane);
 
                 // get kanban card data
                 data = await $.dataset(self.data);
@@ -372,6 +387,34 @@
              * @returns {Object} current kanban card data
              */
             this.getValue = () => data;
+
+            async function getBoardLane(cardID) {
+
+                // const store = await self.board_store.store.get(self.board_store.key);
+                // const store = await self.board_store.store.get({"_id": "sose_19"});
+                const data = (await self.board_store.store.get({"_id": self.board_store.key}))[0].lanes;
+
+                // const test_store = await ccm.store({name: "kanban_team_borad", url: "http://192.168.99.101:8080"});
+
+                // console.log("data", data);
+                let lane_index = null;
+
+                let lane = data.filter( (lane, index, data) => {
+                    // console.log("lane", lane);
+
+                    for (let i = 0; i < lane.cards.length; i++) {
+                        // console.log("card", lane.cards[i]);
+                        if (lane.cards[i][2].data.key == cardID) {
+                            // console.log("WINNER - " + index);
+                            lane_index = index;
+                        }
+                    }
+
+                });
+
+                return lane_index;
+
+            }
 
         }
 
