@@ -3,55 +3,22 @@
 <meta charset="UTF-8">
 
 <head>
-    <!--<script src="https://ccmjs.github.io/ccm/versions/ccm-18.2.0.js"></script>-->
-    <!--<script src="../kanban_team_card-details/ccm.kanban_team_card-details.js"></script>-->
-    <!--<ccm-kanban_team_card-details key='["ccm.get","resources/configs.js","vm_white"]'></ccm-kanban_team_card-details>-->
 
-    <script src="https://ccmjs.github.io/ccm/versions/ccm-18.2.0.js"></script>
+    <script src="https://ccmjs.github.io/ccm/versions/ccm-20.0.0.js"></script>
     <script src="../kanban_team_card-details/ccm.kanban_team_card-details.js"></script>
-
-    <style>
-        .no_border {
-            border: 0;
-            box-shadow: none;
-        }
-
-    </style>
-
-    <!--<script>-->
-        <!--window.addEventListener('hashchange', function () {-->
-            <!--console.log("hashChanged", window.location.hash);-->
-            <!--const urlHash = window.location.hash.substr(1);-->
-            <!--// const hashParameters = urlHash.split('&');-->
-            <!--// hashParameters.forEach(parameter => {-->
-            <!--//     const key = parameter.split('=')[0];-->
-            <!--//     const value = parameter.split('=')[1];-->
-            <!--//     switch (key) {-->
-            <!--//         case 'ccm-navigation':-->
-            <!--//             navigateTo(value);-->
-            <!--//             break;-->
-            <!--//         default:-->
-            <!--//             console.log(`Unknown URL parameter: ${key}`);-->
-            <!--//     }-->
-            <!--// });-->
-
-            <!--navigateTo(urlHash);-->
-
-        <!--});-->
-
-        <!--function navigateTo(value) {-->
-            <!--alert (value);-->
-        <!--}-->
-    <!--</script>-->
 
 </head>
 
 <body>
 
 <script>
-
     let href = window.location.href;
 
+    /**
+     * Parse location and seperates
+     * @param parameterName to be return
+     * @returns {*} value for parameterName (key)
+     */
     function findGetParameter(parameterName) {
         let result = null,
             tmp = [];
@@ -67,21 +34,9 @@
 
     const id = findGetParameter("id");
 
-    console.log("id", id);
-
-    // const comp = ccm.component();
-
-    // let data = ccm.get(id);
-
-    // alert(data);
-
-    // ccm.setContent(this.element, comp.start({
-    //
-    // }));
-
 </script>
 
-<ccm-kanban_team_card-details key='["ccm.get","resources/configs.js","parameter"]'></ccm-kanban_team_card-details>
+<ccm-kanban_team_card-details key='["ccm.get","resources/configs.js","jschae2s_demo"]'></ccm-kanban_team_card-details>
 
 <div id="main"></div>
 

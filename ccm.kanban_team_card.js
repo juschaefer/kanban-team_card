@@ -1,19 +1,9 @@
 /**
- * @overview ccm component for kanban card
- * @author André Kless <andre.kless@web.de> 2016-2018
+ * @overview ccm component for kanban team card
+ * @author Julian Schäfer <Julian.Schaefer@smail.inf.h-brs.de> 2019
  * @license The MIT License (MIT)
- * @version latest (2.0.0)
+ * @version latest (0.0.1)
  * @changes
- * version 2.0.0 (31.10.2018)
- * - uses ccm v18.2.0
- * - removed privatization of instance members
- * - changes in default HTML templates
- * - changed editing behaviour of kanban card title and summary
- * - removed font-awesome lib from default config
- * - svg icons for kanban card owner and deadline
- * - added getValue method
- * - removed status icon
- * version 1.0.0 (19.10.2017)
  */
 
 (function () {
@@ -23,11 +13,9 @@
         name: 'kanban_team_card',
 
         //ccm: 'https://ccmjs.github.io/ccm/ccm.js',
-        ccm: 'https://ccmjs.github.io/ccm/versions/ccm-19.0.0.js',
+        ccm: 'https://ccmjs.github.io/ccm/versions/ccm-20.0.0.js',
 
         config: {
-
-            details: ['ccm.component', '../kanban_team_card-details/ccm.kanban_team_card-details.js'],
 
             html: {
                 "id": "main",
@@ -48,18 +36,6 @@
                                     }
                                 ]
                             },
-                            // {
-                            //     "id": "erase",
-                            //     "tag": "button",
-                            //     "type": "button",
-                            //     "class": "btn",
-                            //     "inner": "L&ouml;schen",
-                            //     // "inner": {
-                            //     //     "tag": "img",
-                            //     //     "src": "%icon_erase%"
-                            //     // },
-                            //     "onclick": "%erase%"
-                            // },
                             {
                                 "id": "owner",
                                 "class": "entry",
@@ -80,20 +56,6 @@
                             }
                         ]
                     },
-                    // {
-                    //     "id": "body",
-                    //     "inner": {
-                    //         "id": "summary",
-                    //         "class": "entry",
-                    //         "inner": {
-                    //             "class": "value",
-                    //             "inner": "%summary%",
-                    //             "contenteditable": "%editable%",
-                    //             "oninput": "%oninput_summary%",
-                    //             "onblur": "%onblur_summary%"
-                    //         }
-                    //     }
-                    // },
                     {
                         "id": "footer",
                         "inner": [
@@ -151,30 +113,19 @@
                 }
             ],
 
-            css: ["ccm.load", "https://ccmjs.github.io/akless-components/kanban_card/resources/default.css"],
+            css: ["ccm.load", "../kanban_team_card/resources/default.css"],
             data: {},
             editable: true,
             members: [],
             priorities: [],
-            board_store: {
-                "store": [
-                    "ccm.store",
-                    {
-                        "name": "kanban_team_borad",
-                        // "url": "https://ccm2.inf.h-brs.de"
-                        "url": "http://192.168.99.101:8080"
-                    }
-                ],
-                "key": "sose_19"
-            },
             icon: {
                 "owner": "https://ccmjs.github.io/akless-components/kanban_card/resources/owner.svg",
                 "deadline": "https://ccmjs.github.io/akless-components/kanban_card/resources/deadline.svg"
-            }
+            },
 
-            // "onchange": function (event) {
-            //     console.log(this.index, 'onchange', this.getValue(), event)
-            // },
+            onchange: function (event) {
+                console.log(this.index, 'onchange', this.getValue(), event)
+            },
             //  "user": [ "ccm.instance", "https://ccmjs.github.io/akless-components/user/versions/ccm.user-8.2.0.js", [ "ccm.get", "https://ccmjs.github.io/akless-components/user/resources/configs.js", "guest" ] ],
             //  "logger": [ "ccm.instance", "https://ccmjs.github.io/akless-components/log/versions/ccm.log-4.0.1.js", [ "ccm.get", "https://ccmjs.github.io/akless-components/log/resources/configs.js", "greedy" ] ]
 
@@ -186,7 +137,7 @@
              * shortcut to help functions
              * @type {Object.<string,function>}
              */
-            let $;
+            let $, data;
 
             /**
              * own reference for inner functions
@@ -213,15 +164,11 @@
 
             this.start = async () => {
 
-                // let lane = await getBoardLane("1549002752508X7882114181170354");
-                // let lane = await getBoardLane("1549002107660X9548834295194919");
-                // console.log("lane: " + lane);
-
                 // get kanban card data
-                data = await $.dataset(self.data);
+                data = await $.dataset( this.data );
 
                 // logging of 'start' event
-                // this.logger && this.logger.log('start', $.clone(data));
+                this.logger && this.logger.log('start', $.clone(data));
 
                 // render main HTML structure
                 $.setContent(self.element, $.html(self.html, $.integrate({
@@ -267,8 +214,6 @@
 
                 }, data, true)));
 
-                // const self = this;
-
                 /**
                  * updates value of a changed kanban card property
                  * @param {string} prop - changed kanban card property
@@ -276,10 +221,9 @@
                  * @returns {Promise}
                  */
                 async function update(prop, value) {
-
                     // has user instance? => login
                     self.user && await self.user.login();
-                    console.log(data);
+
                     // update kanban card data
                     data[prop] = value.trim();
 
@@ -299,7 +243,6 @@
                  * @param {boolean} owner_or_prio - true: owner, false: priority
                  */
                 function select(elem, owner_or_prio) {
-
                     /**
                      * initial selector box entries
                      * @type {Object[]}
@@ -323,7 +266,9 @@
                     // focus selector box
                     self.element.querySelector('select').focus();
 
-                    /** when selector box value has changed */
+                    /**
+                     * when selector box value has changed
+                     */
                     function onChange() {
 
                         // set new value in original element
@@ -356,7 +301,9 @@
                     // focus input field
                     self.element.querySelector('input').focus();
 
-                    /** when input field value has changed */
+                    /**
+                     * when input field value has changed
+                     */
                     function onInput() {
 
                         // set new value in original element
@@ -366,7 +313,6 @@
                         update('deadline', this.value);
 
                     }
-
                 }
 
                 /**
@@ -387,34 +333,6 @@
              * @returns {Object} current kanban card data
              */
             this.getValue = () => data;
-
-            async function getBoardLane(cardID) {
-
-                // const store = await self.board_store.store.get(self.board_store.key);
-                // const store = await self.board_store.store.get({"_id": "sose_19"});
-                const data = (await self.board_store.store.get({"_id": self.board_store.key}))[0].lanes;
-
-                // const test_store = await ccm.store({name: "kanban_team_borad", url: "http://192.168.99.101:8080"});
-
-                // console.log("data", data);
-                let lane_index = null;
-
-                let lane = data.filter( (lane, index, data) => {
-                    // console.log("lane", lane);
-
-                    for (let i = 0; i < lane.cards.length; i++) {
-                        // console.log("card", lane.cards[i]);
-                        if (lane.cards[i][2].data.key == cardID) {
-                            // console.log("WINNER - " + index);
-                            lane_index = index;
-                        }
-                    }
-
-                });
-
-                return lane_index;
-
-            }
 
         }
 

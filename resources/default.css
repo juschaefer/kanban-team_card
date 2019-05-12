@@ -1,13 +1,38 @@
 /**
- * @overview default layout of ccm component for kanban card
- * @author André Kless <andre.kless@web.de> 2017
+ * @overview Default CSS-Layout for a Kanban-Team-Card
+ * @author Julian Schäfer <Julian.Schaefer@smail.inf.h-brs.de> 2019
  * @license The MIT License (MIT)
  */
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
+
+#element {
+  font-family: "Source Sans Pro",Helvetica,Arial,sans-serif;
+  font-size: 1em;
+  font-style: normal;
+  line-height: 1.4em;
+  color: #192429;
+}
+
+.card {
+  margin: 0 0.25em 1.75em 0.25em;
+}
+
+.no_border {
+  border: 0;
+  box-shadow: none;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.align-left {
+  text-align: left;
+}
 
 #main {
   width: 18em;
   margin: 0.5em;
-  font-family: Arial, sans-serif;
 }
 
 #header,
@@ -18,27 +43,25 @@
   flex-wrap: wrap;
   min-height: 1.85em;
   padding: 0.25em;
-  background-color: white;
-  border: 0.1em solid lightgray;
+  background-color: #FFFFFF;
+  border: 0.1em solid #d3d3d3;
 }
 
 #header {
   border-bottom: 0;
   border-top-left-radius: 0.5em;
   border-top-right-radius: 0.5em;
-  padding-bottom: 0.15em;
 }
 
 #footer {
   border-top: 0;
   border-bottom-left-radius: 0.5em;
   border-bottom-right-radius: 0.5em;
-  padding-top: 0.15em;
 }
 
 #body {
-  border: 0.1em solid lightgray;
-  background-color: white;
+  border: 0.1em solid #008eca;
+  background-color: #FFFFFF;
 }
 
 .entry {
@@ -66,6 +89,7 @@
 
 .value {
   cursor: text;
+  margin-bottom: 0.1em;
 }
 
 #summary .value {
@@ -78,9 +102,10 @@
   max-width: 6em;
   overflow: hidden;
   border-radius: 1em;
-  padding: 0 0.4em;
-  color: white;
-  background-color: black;
+  padding: 0 0.5em 0.1em 0.5em;
+  font-size: 90%;
+  color: #FFFFFF;
+  background-color: #000000;
 }
 
 *[contenteditable='true'] {
@@ -122,5 +147,6 @@ select {
 }
 
 img {
+  margin-top: 0.1em;
   height: 1em;
 }

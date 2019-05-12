@@ -1,92 +1,86 @@
 /**
  * @overview configurations of ccm component for kanban card
- * @author André Kless <andre.kless@web.de> 2017-2018
+ * @author Julian Schäfer <Julian.Schaefer@smail.inf.h-brs.de> 2019
  * @license The MIT License (MIT)
  */
 
-ccm.files[ 'configs.js' ] = {
+const LOCAL_DATA_SERVER = "http://192.168.99.101:8080";
+const HBRS_CCM2_DATA_SERVER = "https://ccm2.inf.h-brs.de";
 
-  "local_white": {
-    "key": "local_white",
-    "css.1": "../kanban_team_card/resources/default.css",
-    "data": {
-      "store": [ "ccm.store", "../kanban_team_card/resources/datasets.js" ],
-      "key": "homework"
+ccm.files['configs.js'] = {
+
+    "local": {
+        "key": "local",
+        "data_server": LOCAL_DATA_SERVER,
+        "project": "jschae2s_sose_19_prototyp",
+        "data": {
+            "store": ["ccm.store", {"name": "jschae2s_kanban_team_cards", "url": LOCAL_DATA_SERVER}],
+        },
+        "comment_store": ['ccm.store', {"name": "jschae2s_comments", "url": LOCAL_DATA_SERVER}],
+        "logger": ["ccm.instance", "https://ccmjs.github.io/akless-components/log/ccm.log.js", {
+            "logging": {
+                "data": true,
+                "browser": true,
+                "parent": true,
+                "root": true,
+                "user": true,
+                "website": true
+            },
+            "events": {
+                "start": {
+                    "data": true,
+                    "user": true
+                },
+                "change": {
+                    "data": true,
+                    "user": true
+                }
+            },
+
+            "hash": ["ccm.load", "https://ccmjs.github.io/akless-components/libs/md5/md5.js"],
+            "onfinish": {
+                "store": {
+                    "settings": {"name": "jschae2s_sose_19_prototyp_team-card-details", "url": LOCAL_DATA_SERVER},
+                }
+            },
+        }]
     },
-    "icon": {
-      "owner": "../kanban_team_card/resources/owner.svg",
-      "deadline": "../kanban_team_card/resources/deadline.svg"
-    },
-    "logger": [ "ccm.instance", "../../akless-components/log/ccm.log.js", [ "ccm.get", "../../akless-components/log/resources/configs.js", "greedy" ] ],
-    "onchange": function ( event ) { console.log( this.index, 'onchange', this.getValue(), event ) }
-  },
 
-  "local_gold": {
-    "key": "local_gold",
-    "css.1": "../kanban_team_card/resources/gold.css",
-    "data": {
-      "store": [ "ccm.store", "../kanban_team_card/resources/datasets.js" ],
-      "key": "presentation"
-    },
-    "icon": {
-      "owner": "../kanban_team_card/resources/owner.svg",
-      "deadline": "../kanban_team_card/resources/deadline.svg"
+    "jschae2s_demo": {
+        "key": "jschae2s_demo",
+        "data_server": HBRS_CCM2_DATA_SERVER,
+        "project": "jschae2s_demo",
+        "data": {
+            "store": ["ccm.store", {"name": "jschae2s_kanban_team_cards", "url": HBRS_CCM2_DATA_SERVER}],
+        },
+        "comment_store": ['ccm.store', {"name": "jschae2s_comments", "url": HBRS_CCM2_DATA_SERVER}],
+    "logger": ["ccm.instance", "https://ccmjs.github.io/akless-components/log/ccm.log.js", {
+        "logging": {
+            "data": true,
+            "browser": true,
+            "parent": true,
+            "root": true,
+            "user": true,
+            "website": true
+        },
+        "events": {
+            "start": {
+                "data": true,
+                "user": true
+            },
+            "change": {
+                "data": true,
+                "user": true
+            }
+        },
+
+        "hash": ["ccm.load", "https://ccmjs.github.io/akless-components/libs/md5/md5.js"],
+        "onfinish": {
+            "store": {
+                "settings": {"name": "jschae2s_demo_team-card-details", "url": HBRS_CCM2_DATA_SERVER},
+            }
+        },
+    }]
     }
-  },
-
-  "local_blue": {
-    "key": "local_blue",
-    "css.1": "../kanban_team_card/resources/blue.css",
-    "icon": {
-      "owner": "../kanban_team_card/resources/owner.svg",
-      "deadline": "../kanban_team_card/resources/deadline.svg"
-    }
-  },
-
-  "demo_white": {
-    "key": "white",
-    "data": {
-      "store": [ "ccm.store", { "name": "kanban_card", "url": "https://ccm2.inf.h-brs.de" } ],
-      "key": "demo_white"
-    }
-  },
-
-  "demo_gold": {
-    "key": "gold",
-    "css.1": "https://ccmjs.github.io/akless-components/kanban_card/resources/gold.css",
-    "data": {
-      "store": [ "ccm.store", { "name": "kanban_card", "url": "https://ccm2.inf.h-brs.de" } ],
-      "key": "demo_gold"
-    }
-  },
-
-  "demo_blue": {
-    "key": "blue",
-    "css": [ "ccm.load", "https://ccmjs.github.io/akless-components/kanban_card/resources/blue.css", { "context": "head", "url": "https://ccmjs.github.io/akless-components/libs/weblysleekui/font.css" } ],
-    "data": {
-      "store": [ "ccm.store", { "name": "kanban_card", "url": "https://ccm2.inf.h-brs.de" } ],
-      "key": "demo_blue"
-    }
-  },
-
-  "realtime": {
-    "key": "realtime",
-    "css": [ "ccm.load", "https://ccmjs.github.io/akless-components/kanban_card/resources/blue.css", { "context": "head", "url": "https://ccmjs.github.io/akless-components/libs/weblysleekui/font.css" } ],
-    "data": {
-      "store": [ "ccm.store", { "name": "kanban_card", "url": "wss://ccm2.inf.h-brs.de" } ],
-      "key": "demo_blue"
-    }
-  },
-
-  "vm_white": {
-    "key": "vm_white",
-    "css.1": "../kanban_team_card/resources/default.css",
-    "data": {
-      "store": [ "ccm.store", { "name": "kanban_team_cards", "url": "http://192.168.99.101:8080" } ],
-      // "key": "sose_19"
-      "key": "1547935098383X5193252592493718"
-    },
-    "onchange": function ( event ) { console.log( this.index, 'onchange', this.getValue(), event ) }
-  }
 
 };
